@@ -2,12 +2,29 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 import { connect } from 'react-redux';
+import { fetchPosts } from '../../store/actions';
 import Post from '../Post';
 import './Posts.scss';
 
 class Posts extends Component {
-  infinityScroll = debounce((query) => {
-    //
+  state = {
+    nextPage: 1
+  }
+
+  infinityScroll = debounce((wrapper) => {
+    const list = wrapper.firstElementChild;
+
+    let wrapperHeight = wrapper.offsetHeight;
+    let listHeight = list.offsetHeight;
+    let scrollTop = wrapper.scrollTop;
+
+    let diffHeight = listHeight - wrapperHeight;
+    if (diffHeight <= scrollTop && !this.props.loading && scrollTop > 0) {
+      this.setState(({ nextPage }) => ({
+        nextPage: nextPage + 1
+      }));
+      this.props.fetchPosts(this.props.query, this.state.nextPage);
+    }
   }, 500);
 
   render() {
@@ -16,9 +33,11 @@ class Posts extends Component {
       <Post post={post} key={post.id} />
     ));
     return (
-      <div className="result" onScroll={e => this.infinityScroll(e.target.value)} >
-        {postItems}
-        <p className="search__status">{resultStatus}</p>
+      <div className="result" onScroll={e => this.infinityScroll(e.target)} >
+        <div>
+          {postItems}
+          <p className="search__status">{resultStatus}</p>
+        </div>
       </div>
     );
   }
@@ -33,7 +52,8 @@ Posts.propTypes = {
 const mapStateToProps = state => ({
   posts: state.posts.items,
   query: state.posts.query,
-  totalCount: state.posts.totalCount
+  totalCount: state.posts.totalCount,
+  loading: state.posts.loading
 });
 
-export default connect(mapStateToProps, null)(Posts);
+export default connect(mapStateToProps, {fetchPosts})(Posts);

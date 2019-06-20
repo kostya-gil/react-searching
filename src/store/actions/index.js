@@ -1,5 +1,12 @@
-import { FETCH_POSTS } from './types';
 import axios from 'axios';
+import { FETCH_POSTS, RESET } from './types';
+
+export const reset = () => (dispatch) => {
+  dispatch({
+    type: RESET,
+    payload: {},
+  });
+};
 
 export const fetchPosts = (query, page = 1) => (dispatch) => {
   dispatch({
@@ -7,38 +14,23 @@ export const fetchPosts = (query, page = 1) => (dispatch) => {
     payload: {
       posts: [],
       loading: true,
-      query: query,
-      totalCount: -1
-    }
+      query,
+      totalCount: -1,
+    },
   });
   axios.get(`https://api.github.com/search/repositories?q=${query}&page=${page}&per_page=10`)
     .then(res => res.data)
-    .then(posts => {
+    .then((posts) => {
       dispatch({
         type: FETCH_POSTS,
         payload: {
           posts: posts.items,
           loading: false,
-          query: query,
-          totalCount: parseInt(posts.total_count, 10)
-        }
+          query,
+          totalCount: parseInt(posts.total_count, 10),
+        },
       });
-    }
-  ).catch(error => {
-    dispatch({
-      type: FETCH_POSTS,
-      payload: {
-        posts: [
-          {
-            id: 'error1',
-            full_name: error
-          }
-        ],
-        loading: false,
-        query: query,
-        totalCount: -1
-      }
+    }).catch((error) => {
+      console.log(error);
     });
-    console.log(error);
-  });
 };

@@ -8,8 +8,8 @@ import Posts from './components/Posts';
 
 class App extends Component {
   render() {
-   return (
-     <Provider store={store}>
+    return (
+      <Provider store={store}>
         <div className="App">
           <div className="wrapper">
             <h1>Поиск GitHub</h1>

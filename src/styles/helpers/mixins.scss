@@ -1,0 +1,30 @@
+// Set element size
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+// Set margin on left & right
+@mixin margin-x($margin) {
+  margin-left: $margin;
+  margin-right: $margin;
+}
+
+// Set margin on top & bottom
+@mixin margin-y($margin) {
+  margin-top: $margin;
+  margin-bottom: $margin;
+}
+
+// Set pading on left & right
+@mixin padding-x($padding) {
+  padding-left: $padding;
+  padding-right: $padding;
+}
+
+// Set padding on top & bottom
+@mixin padding-y($padding) {
+  padding-top: $padding;
+  padding-bottom: $padding;
+}
+

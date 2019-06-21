@@ -6,8 +6,11 @@ import { fetchPosts, reset } from '../../store/actions';
 import './Search.scss';
 
 class Search extends Component {
-  state = {
-    query: ''
+  contructor(props) {
+    super(props);
+    this.state = {
+      query: ''
+    }
   }
 
   getAnswer = debounce((query) => {

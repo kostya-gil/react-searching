@@ -7,8 +7,11 @@ import Post from '../Post';
 import './Posts.scss';
 
 class Posts extends Component {
-  state = {
-    nextPage: 1
+  contructor(props) {
+    super(props);
+    this.state = {
+      nextPage: 1
+    }
   }
 
   infinityScroll = debounce((wrapper) => {
@@ -19,6 +22,7 @@ class Posts extends Component {
     let scrollTop = wrapper.scrollTop;
 
     let diffHeight = listHeight - wrapperHeight;
+
     if (diffHeight <= scrollTop && !this.props.loading && scrollTop > 0) {
       this.setState(({ nextPage }) => ({
         nextPage: nextPage + 1

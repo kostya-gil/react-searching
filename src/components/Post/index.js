@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Post.scss';
 
-class Post extends Component {
-  render() {
-    const title = this.props.post.full_name;
-    const url = this.props.post.html_url;
-    const countStars = this.props.post.stargazers_count;
-    const countSubs = this.props.post.watchers_count;
-    const description = this.props.post.description;
+const Post = (props) => {
+    const title = props.post.full_name;
+    const url = props.post.html_url;
+    const countStars = props.post.stargazers_count;
+    const countSubs = props.post.watchers_count;
+    const description = props.post.description;
 
     return (
       <div className="post">
@@ -25,7 +24,6 @@ class Post extends Component {
         </p>
       </div>
     );
-  }
 }
 
 export default Post;
